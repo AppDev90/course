@@ -1,0 +1,21 @@
+﻿@model RegisterViewModel
+@{
+    ViewData["Title"] = "تکمیل ثبت نام";
+}
+
+<div class="container">
+    <nav aria-label="breadcrumb">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">@Course.Core.Common.ConstValues.SiteName</a></li>
+            <li class="breadcrumb-item active" aria-current="page">تکمیل ثبت نام</li>
+        </ul>
+    </nav>
+</div>
+
+<div class="alert alert-success">
+    <h2>@Model.UserName عزیز !</h2>
+    <p>ثبت نام شما انجام شد ، ایمیلی حاوی لینک فعالسازی به ایمیل "@Model.Email" ارسال شد .</p>
+    <p>جهت تکمیل ثبت نام وارد ایمیل خود شوید و روی لینک کلیک کنید .</p>
+</div>
+
+

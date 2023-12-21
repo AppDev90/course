@@ -1,0 +1,121 @@
+﻿@model WalletCharegeViewModel
+@using Core.Utility.Convertors;
+
+@{
+    ViewData["Title"] = "کیف پول شما";
+}
+
+<div class="container">
+    <nav aria-label="breadcrumb">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">@Core.Common.ConstValues.SiteName</a></li>
+            <li class="breadcrumb-item active" aria-current="page"> کیف پول شما </li>
+        </ul>
+    </nav>
+</div>
+
+<main>
+    <div class="container">
+        <div class="user-account">
+            <div class="row">
+                <partial name="_SideBar" />
+                <div class="col-md-9 col-sm-8 col-xs-12">
+                    <section class="user-account-content">
+                        <header><h1> شارژ کیف پول </h1></header>
+                        <div class="inner form-layer">
+                            <form asp-action="index" method="post">
+                                @if (ViewBag.IsSuccess == true)
+                                {
+                                    <div class="alert alert-success">
+                                        شارژ انجام شد.
+                                    </div>
+                                }
+
+                                <div asp-validation-summary="All" class="text-danger" style="margin-bottom:20px">
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-7 col-sm-8 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon" id="username"><i class="zmdi zmdi-balance-wallet"></i></span>
+                                            <input type="number" class="form-control" asp-for="Amount" placeholder="مبلغ شارژ" aria-describedby="username">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-7 col-sm-8 col-xs-12">
+                                        <button class="btn btn-success"> شارژ کیف پول </button>
+                                    </div>
+                                </div>
+                            </form>
+                            <hr />
+                            @{
+                                List<WalletViewModel> walletViewModels = ViewBag.Wallet as List<WalletViewModel>;
+                                int count = 1;
+                            }
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th>ردیف</th>
+                                    <th>مبلغ</th>
+                                    <th>تاریخ</th>
+                                    <th>نوع تراکنش</th>
+                                    <th>شرح</th>
+                                    <th>کد پیگیری</th>
+                                    <th>انجام تراکنش</th>
+                                </tr>
+                                @foreach (var item in walletViewModels)
+                                {
+                                    <tr>
+                                        <td>@count</td>
+                                        <td>@item.Amount.ToString("#,0 تومان")</td>
+                                        <td>@item.CreateDate.ToShamsi()</td>
+                                        <td>
+                                            @if (item.WalletTypeId == 1)
+                                            {
+                                                <p class="text-info">واریز </p>
+                                            }
+                                            else
+                                            {
+                                                <p class="text-danger">برداشت</p>
+                                            }
+                                        </td>
+
+                                        <td>
+                                            @item.Description
+                                        </td>
+
+                                        <td>
+                                            @if (item.WalletTypeId == 1)
+                                            {
+                                                <text>@item.TrackingCode</text>
+                                            }
+                                            else
+                                            {
+                                                <text>-</text>
+                                            }
+                                        </td>
+
+                                        <td>
+                                            @if (item.IsDone)
+                                            {
+                                                <p class="text-success">موفق</p>
+                                            }
+                                            else
+                                            {
+                                                <p>نا موفق</p>
+                                            }
+                                        </td>
+
+                                    </tr>
+                                    count++;
+                                }
+                            </table>
+
+                        </div>
+
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
